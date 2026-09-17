@@ -6,6 +6,7 @@ import json
 import mimetypes
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import threading
@@ -40,6 +41,26 @@ PIPELINE_STEPS = [
 ]
 
 DB_LOCK = threading.Lock()
+
+
+def load_env_file(path: Path) -> None:
+    if not path.is_file():
+        return
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        key, separator, value = line.partition("=")
+        key = key.strip()
+        if not separator or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key):
+            raise ValueError(f"{path.name}:{line_number}: KEY=VALUE 形式で指定してください")
+        try:
+            parts = shlex.split(value, comments=True)
+        except ValueError as exc:
+            raise ValueError(f"{path.name}:{line_number}: 引用符を確認してください") from exc
+        if len(parts) > 1:
+            raise ValueError(f"{path.name}:{line_number}: 空白を含む値は引用符で囲んでください")
+        os.environ.setdefault(key, parts[0] if parts else "")
 
 
 def now_iso() -> str:
@@ -515,6 +536,7 @@ class AppHandler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
+    load_env_file(ROOT / ".env")
     parser = argparse.ArgumentParser(description="Local meeting minutes app")
     parser.add_argument("--host", default=os.getenv("HOST", "127.0.0.1"))
     parser.add_argument("--port", type=int, default=int(os.getenv("PORT", "8765")))

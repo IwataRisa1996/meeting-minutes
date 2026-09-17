@@ -15,9 +15,12 @@
 
 ## 起動
 
+初回のみ `.env.example` を `.env` にコピーし、`HF_TOKEN` を自分のトークンに置き換えます。`.env` は Git の公開対象から除外されます。起動時に自動で読み込まれ、ターミナルで設定した環境変数が優先されます。
+
 ```bash
 cd ~/dev/meeting-minutes
-python3 app/server.py --port 8888
+cp .env.example .env
+python3 app/server.py
 ```
 
 ブラウザで `http://127.0.0.1:8888` を開きます。
@@ -75,13 +78,9 @@ python app/server.py
    - `pyannote/segmentation-3.0`
    - `pyannote/speaker-diarization-community-1`
 3. Hugging Face の Settings から Read 権限の Access Token を作成します。
-4. 起動時に環境変数へ設定します。
+4. `.env` の `HF_TOKEN` に設定します。
 
-```bash
-export HF_TOKEN="hf_xxxxxxxxxxxxxxxxx"
-source .venv/bin/activate
-python app/server.py
-```
+トークンを設定したらサーバーを再起動してください。`.env` は共有・コミットしないでください。
 
 ## WhisperX 実行設定
 
@@ -108,19 +107,11 @@ whisperx audio_16k_mono.wav \
 
 `OPENAI_API_KEY` がある場合は OpenAI 互換の Chat Completions API で要約・決定事項・TODO を JSON 抽出します。未設定の場合も、アプリは簡易抽出で最後まで進みます。
 
-```bash
-export OPENAI_API_KEY="sk-..."
-export OPENAI_MODEL="gpt-4o-mini"
-python app/server.py
-```
+`.env` の `OPENAI_API_KEY` と `OPENAI_MODEL` を設定してください。外部 API を使わない場合は `OPENAI_API_KEY` を空欄のままにします。
 
 OpenAI 互換サーバーを使う場合:
 
-```bash
-export OPENAI_BASE_URL="http://127.0.0.1:11434/v1"
-export OPENAI_MODEL="your-model"
-python app/server.py
-```
+`.env` の `OPENAI_BASE_URL` のコメントを外し、接続先と `OPENAI_MODEL` を設定します。
 
 ## 処理ステータス
 
