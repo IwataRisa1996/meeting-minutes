@@ -17,7 +17,7 @@
 
 ```bash
 cd ~/dev/meeting-minutes
-python3 app/server.py
+python3 app/server.py --port 8888
 ```
 
 ブラウザで `http://127.0.0.1:8888` を開きます。
