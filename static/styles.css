@@ -1,0 +1,391 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f4ee;
+  --panel: #ffffff;
+  --ink: #222528;
+  --muted: #6d737a;
+  --line: #ded9cf;
+  --accent: #176b87;
+  --accent-2: #b35f30;
+  --success: #247a4d;
+  --danger: #b33a3a;
+  --shadow: 0 16px 40px rgba(36, 35, 31, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  border-right: 1px solid var(--line);
+  background: #fbfaf6;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mark {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: white;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 20px;
+}
+
+.brand p,
+.meta,
+.muted {
+  color: var(--muted);
+}
+
+.drop-zone {
+  border: 1px dashed #8b8f92;
+  border-radius: 8px;
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 22px;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.drop-zone input {
+  display: none;
+}
+
+.drop-zone.dragover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.list-head button,
+#copyButton {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  min-height: 34px;
+  padding: 0 12px;
+}
+
+.meeting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+}
+
+.meeting-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+  text-align: left;
+}
+
+.meeting-item.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(23, 107, 135, 0.12);
+}
+
+.meeting-item strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meeting-item small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.content {
+  padding: 32px;
+  overflow: auto;
+}
+
+.empty-state {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.empty-state h2 {
+  font-size: 28px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.detail-header h2 {
+  font-size: 30px;
+  margin-top: 6px;
+}
+
+.status-pill {
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #e7f2f4;
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.progress-wrap {
+  height: 10px;
+  border-radius: 999px;
+  background: #e2ded5;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.25s ease;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.steps li {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.steps li.done {
+  color: #fff;
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.steps li.current {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.panel h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.preline {
+  white-space: pre-line;
+  line-height: 1.7;
+}
+
+.clean-list {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.7;
+}
+
+.clean-list:empty::after,
+.todo-list:empty::after,
+.transcript:empty::after {
+  content: "まだありません";
+  color: var(--muted);
+}
+
+.todo {
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+}
+
+.todo:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.todo strong {
+  display: block;
+  line-height: 1.5;
+}
+
+.todo span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.panel-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.segment {
+  display: grid;
+  grid-template-columns: 190px 130px 1fr;
+  gap: 12px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  line-height: 1.6;
+}
+
+.segment:first-child {
+  border-top: 0;
+}
+
+.time {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.speaker {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.error {
+  border: 1px solid rgba(179, 58, 58, 0.35);
+  background: #fff4f2;
+  color: var(--danger);
+  border-radius: 8px;
+  padding: 12px;
+  white-space: pre-line;
+}
+
+@media (max-width: 980px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .segment {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

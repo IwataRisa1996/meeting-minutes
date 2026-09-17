@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meeting Minutes</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="mark">MM</div>
+          <div>
+            <h1>Meeting Minutes</h1>
+            <p>ローカル議事録生成</p>
+          </div>
+        </div>
+
+        <label id="dropZone" class="drop-zone" for="fileInput">
+          <input id="fileInput" type="file" accept=".mp4,.mov,.mkv,.webm,.wav,.mp3,.m4a" />
+          <span class="upload-icon">+</span>
+          <strong>動画・音声をドロップ</strong>
+          <small>mp4 / mov / mkv / webm / wav / mp3 / m4a</small>
+        </label>
+
+        <div class="list-head">
+          <span>過去の会議</span>
+          <button id="refreshButton" type="button" title="再読み込み">↻</button>
+        </div>
+        <nav id="meetingList" class="meeting-list" aria-label="過去の会議一覧"></nav>
+      </aside>
+
+      <main class="content">
+        <section id="emptyState" class="empty-state">
+          <h2>ファイルを追加すると、ここに議事録が表示されます</h2>
+          <p>処理はローカルで進み、ステータスはリアルタイムに更新されます。</p>
+        </section>
+
+        <section id="detail" class="detail hidden">
+          <header class="detail-header">
+            <div>
+              <p id="meetingMeta" class="meta"></p>
+              <h2 id="meetingTitle"></h2>
+            </div>
+            <span id="statusPill" class="status-pill"></span>
+          </header>
+
+          <div class="progress-wrap">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <ol id="steps" class="steps"></ol>
+          <p id="errorBox" class="error hidden"></p>
+
+          <div class="grid">
+            <section class="panel summary-panel">
+              <h3>要約</h3>
+              <p id="summaryText" class="preline muted">処理完了後に表示されます。</p>
+            </section>
+            <section class="panel">
+              <h3>決定事項</h3>
+              <ul id="decisionsList" class="clean-list"></ul>
+            </section>
+            <section class="panel">
+              <h3>TODO</h3>
+              <div id="todosList" class="todo-list"></div>
+            </section>
+          </div>
+
+          <section class="panel transcript-panel">
+            <div class="panel-title-row">
+              <h3>話者・タイムスタンプ付き全文</h3>
+              <button id="copyButton" type="button">コピー</button>
+            </div>
+            <div id="transcriptList" class="transcript"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>
